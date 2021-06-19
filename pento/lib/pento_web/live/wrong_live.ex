@@ -8,21 +8,33 @@ defmodule PentoWeb.WrongLive do
         socket,
         score: 0,
         message: "Guess a number.",
-        time: time()
+        time: time(),
+        win_number: Enum.random(1..10)
       )
     }
   end
 
   def handle_event("guess", %{"number" => guess} = data, socket) do
-    message = "Your guess: #{guess}. Wrong. Guess again. "
-    score = socket.assigns.score - 1
+    # value comes as binary "string"
+    {number, _} = Integer.parse(guess)
+
+    message =
+      if socket.assigns.win_number == number,
+        do: "You win 🏆, play again",
+        else: "Your guess: #{guess}. Wrong ❌. Guess again. "
+
+    score =
+      if socket.assigns.win_number == number,
+        do: socket.assigns.score + 1,
+        else: socket.assigns.score - 1
 
     {
       :noreply,
       assign(
         socket,
         message: message,
-        score: score
+        score: score,
+        win_number: Enum.random(1..10)
       )
     }
   end
