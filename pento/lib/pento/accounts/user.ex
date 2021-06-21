@@ -4,11 +4,11 @@ defmodule Pento.Accounts.User do
 
   @derive {Inspect, except: [:password]}
   schema "users" do
+    field :username, :string
     field :email, :string
     field :password, :string, virtual: true
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
-
     timestamps()
   end
 
@@ -31,7 +31,8 @@ defmodule Pento.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:username, :email, :password])
+    |> validate_username()
     |> validate_email()
     |> validate_password(opts)
   end
@@ -53,6 +54,11 @@ defmodule Pento.Accounts.User do
     # |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
     # |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
     |> maybe_hash_password(opts)
+  end
+
+  defp validate_username(changeset) do
+    changeset
+    |> validate_required([:username])
   end
 
   defp maybe_hash_password(changeset, opts) do
@@ -110,6 +116,12 @@ defmodule Pento.Accounts.User do
     change(user, confirmed_at: now)
   end
 
+  def username_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:username])
+    |> validate_username()
+  end
+
   @doc """
   Verifies the password.
 
@@ -136,4 +148,5 @@ defmodule Pento.Accounts.User do
       add_error(changeset, :current_password, "is not valid")
     end
   end
+
 end

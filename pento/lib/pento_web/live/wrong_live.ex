@@ -1,7 +1,7 @@
 defmodule PentoWeb.WrongLive do
   use Phoenix.LiveView
 
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
     {
       :ok,
       assign(
@@ -9,7 +9,9 @@ defmodule PentoWeb.WrongLive do
         score: 0,
         message: "Guess a number.",
         time: time(),
-        win_number: Enum.random(1..10)
+        win_number: Enum.random(1..10),
+        user: Pento.Accounts.get_user_by_session_token(session["user_token"]),
+        session_id: session["live_socket_id"]
       )
     }
   end
@@ -68,6 +70,10 @@ defmodule PentoWeb.WrongLive do
       It's <%= @time %>
     </h2>
     <button phx-click="updateTime">Update time </Button>
+    <pre>
+      <%= @user.username %>
+      <%= @session_id %>
+    </pre>
     """
   end
 end
