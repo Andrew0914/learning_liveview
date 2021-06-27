@@ -6,6 +6,8 @@ defmodule PentoWeb.ProductLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+    IO.puts("ROUTES 💥")
+    IO.inspect(Routes)
     {:ok,
       socket |>
       assign(:products, list_products()) |>
