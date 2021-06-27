@@ -20,13 +20,19 @@ defmodule PentoWeb.Router do
   scope "/", PentoWeb do
     pipe_through :browser
     live "/", PageLive, :index
-    # GENERATED ROUTES
+    # GENERATED ROUTES PRODUCT
     live "/product", ProductLive.Index, :index
     live "/product/new", ProductLive.Index, :new
     live "/product/:id/edit", ProductLive.Index, :edit
     live "/product/:id", ProductLive.Show, :show
     live "/product/:id/show/edit", ProductLive.Show, :edit
     live "/guess", WrongLive
+    # FAQ
+    live "/questions", QuestionsLive.Index, :index
+    live "/questions/new", QuestionsLive.Index, :new
+    live "/questions/:id/edit", QuestionsLive.Index, :edit
+    live "/questions/:id", QuestionsLive.Show, :show
+    live "/questions/:id/show/edit", QuestionsLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

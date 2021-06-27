@@ -1,0 +1,36 @@
+<h1>Listing Questions</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, PentoWeb.QuestionsLive.FormComponent,
+    id: @questions.id || :new,
+    title: @page_title,
+    action: @live_action,
+    questions: @questions,
+    return_to: Routes.questions_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Votes</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="questions">
+    <%= for questions <- @questions_collection do %>
+      <tr id="questions-<%= questions.id %>">
+        <td><span><%= live_redirect questions.question, to: Routes.questions_show_path(@socket, :show, questions) %></span></td>
+        <td><%= questions.votes %></td>
+
+        <td>
+          <span><%= live_patch "Edit📝", to: Routes.questions_index_path(@socket, :edit, questions) %></span>
+          <span><%= link "Delete ❌", to: "#", phx_click: "delete", phx_value_id: questions.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Questions", to: Routes.questions_index_path(@socket, :new) %></span>
