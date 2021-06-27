@@ -26,7 +26,7 @@ defmodule PentoWeb.Router do
     live "/product/:id/edit", ProductLive.Index, :edit
     live "/product/:id", ProductLive.Show, :show
     live "/product/:id/show/edit", ProductLive.Show, :edit
-    live "/guess", WrongLive
+
     # FAQ
     live "/questions", QuestionsLive.Index, :index
     live "/questions/new", QuestionsLive.Index, :new
@@ -77,6 +77,8 @@ defmodule PentoWeb.Router do
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+    live "/guess", WrongLive
+    live "/promo", PromoLive
   end
 
   scope "/", PentoWeb do
