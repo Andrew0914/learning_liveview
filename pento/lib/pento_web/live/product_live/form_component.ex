@@ -33,6 +33,23 @@ defmodule PentoWeb.ProductLive.FormComponent do
     save_product(socket, socket.assigns.action, product_params)
   end
 
+  def handle_event("cancel", %{"ref" => ref, "value" => _}, socket) do
+    IO.puts "🍿🍿🍿🍿🍿"
+    {:noreply, cancel_upload(socket, :image, ref)}
+  end
+
+  def handle_event(
+        event,
+        params,
+        socket
+      ) do
+    IO.puts "🍕🍕🍕🍕🍕🍕"
+    IO.inspect(event)
+    IO.inspect(params)
+    {:noreply, socket}
+
+  end
+
   defp save_product(socket, :edit, product_params) do
     case Catalog.update_product(socket.assigns.product, product_params) do
       {:ok, _product} ->
@@ -60,7 +77,8 @@ defmodule PentoWeb.ProductLive.FormComponent do
   end
 
   defp handle_progress(:image, entry, socket) do
-    :timer.sleep 1000
+    :timer.sleep(1000)
+
     if entry.done? do
       path =
         consume_uploaded_entry(
@@ -93,4 +111,9 @@ defmodule PentoWeb.ProductLive.FormComponent do
     socket
     |> assign(:changeset, changeset)
   end
+
+  def error_to_string(:too_large), do: "Too large"
+  def error_to_string(:too_many_files), do: "You have selected too many files"
+  def error_to_string(:not_accepted), do: "You have selected an unacceptable file type"
+
 end

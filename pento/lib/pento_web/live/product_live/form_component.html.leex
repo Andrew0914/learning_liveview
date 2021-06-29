@@ -15,7 +15,7 @@
   <%= error_tag f, :description %>
 
   <%= label f, :unit_price %>
-  <%= number_input f, :unit_price, step: "any" %>
+  <%= number_input f, :unit_price, step: "any", phx_debounce: "blur" %>
   <%= error_tag f, :unit_price %>
 
   <%= label f, :sku %>
@@ -30,7 +30,17 @@
     <p>
       <%= entry.client_name %> - <%= entry.progress %>%
     </p>
+
+    <button phx-click="cancel_upload" phx-value-ref="<%= entry.ref %>" type="button" phx-target="<%= @myself %>">
+      Cancel
+    </button>
+
+    <%= for err <- upload_errors(@uploads.image, entry) do %>
+      <p class="alert alert-danger"><%= error_to_string(err) %></p>
+    <% end %>
   <% end %>
+
+  
 
   <%= hidden_input f, :image_upload %>
 
