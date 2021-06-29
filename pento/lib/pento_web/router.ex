@@ -79,6 +79,7 @@ defmodule PentoWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
     live "/guess", WrongLive
     live "/promo", PromoLive
+    live "/search", SearchLive
   end
 
   scope "/", PentoWeb do
