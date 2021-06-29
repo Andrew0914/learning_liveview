@@ -110,4 +110,9 @@ defmodule Pento.Catalog do
   def add_image_to_changeset(changeset, image) do
     changeset |> Product.set_image(image)
   end
+
+  def list_products_with_user_ratings(user) do
+    Product.Query.with_user_ratings(user)
+    |> Repo.all()
+  end
 end
