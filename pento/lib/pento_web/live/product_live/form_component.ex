@@ -60,6 +60,7 @@ defmodule PentoWeb.ProductLive.FormComponent do
   end
 
   defp handle_progress(:image, entry, socket) do
+    :timer.sleep 1000
     if entry.done? do
       path =
         consume_uploaded_entry(

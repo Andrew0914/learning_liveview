@@ -26,6 +26,12 @@
     <%= live_file_input @uploads.image %>
   </div>
 
+  <%= for entry <- @uploads.image.entries do %>
+    <p>
+      <%= entry.client_name %> - <%= entry.progress %>%
+    </p>
+  <% end %>
+
   <%= hidden_input f, :image_upload %>
 
   <%= submit "Save", phx_disable_with: "Saving..." %>
