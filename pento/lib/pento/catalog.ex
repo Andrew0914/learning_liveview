@@ -106,4 +106,8 @@ defmodule Pento.Catalog do
     Product.unit_price_changeset(product, attrs)
     |> Repo.update()
   end
+
+  def add_image_to_changeset(changeset, image) do
+    changeset |> Product.set_image(image)
+  end
 end
