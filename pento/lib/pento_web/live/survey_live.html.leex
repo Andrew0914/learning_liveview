@@ -1,31 +1,23 @@
-<%# <%= for id <- 1..2 do %>
-
-<%= #live_component @socket,
-    #PentoWeb.Live.Components.Title,
-    #title: @title,
-    #id: id %>
-
-<%= #end %>
-
-<ul>
-<%= #for list_item <- @list_items do %>
-  <%= #live_component @socket,
-      #PentoWeb.Live.Components.ListItem,
-      #content: list_item %>
-<%= #end %>
-</ul> 
-
-<section class="row">
+<section class="">
 
 <%= if @demographic do %>
-<%= live_component @socket, 
-  PentoWeb.DemographicLive.ShowComponent,
-  demographic: @demographic %>
+
+  <%= live_component @socket, 
+    PentoWeb.DemographicLive.ShowComponent,
+    demographic: @demographic %>
+
+    <%= live_component @socket,
+      PentoWeb.RatingLive.IndexComponent,
+      products: @products,
+      current_user: @current_user%>
+
 <% else %>
-<%= live_component @socket,
-  PentoWeb.DemographicLive.FormComponent,
-  user: @current_user,
-  id: "demographic-form-#{@current_user.id}"%>
+   
+  <%= live_component @socket,
+    PentoWeb.DemographicLive.FormComponent,
+    user: @current_user,
+    id: "demographic-form-#{@current_user.id}"%>
+ 
 <% end %>
 
 </section>

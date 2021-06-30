@@ -11,7 +11,8 @@ defmodule PentoWeb.SurveyLive do
      |> assign_user(token)
      |> assign_title("Survey")
      |> assign_list_items(["Demographic survey", "Rating products"])
-     |> assign_demographic()}
+     |> assign_demographic()
+     |> assign_products()}
   end
 
   def assign_user(socket, token) do
@@ -31,6 +32,10 @@ defmodule PentoWeb.SurveyLive do
   def assign_demographic(%{assigns: %{current_user: current_user}} = socket) do
     IO.inspect(Survey.get_demographic_by_user(current_user))
     assign(socket, :demographic, Survey.get_demographic_by_user(current_user))
+  end
+
+  def assign_products(%{assigns: %{current_user: current_user}} = socket) do
+    socket |> assign(products: Catalog.list_products_with_user_ratings(current_user))
   end
 
   def handle_info({:created_demographic, demographic}, socket) do
