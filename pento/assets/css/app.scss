@@ -98,3 +98,13 @@
 .block {
   display: block;
 }
+
+.box {
+  display: flex;
+  flex-flow: column;
+  border-radius: 10px;
+  border: 1px solid gray;
+  padding: 10px;
+  display: block;
+  width: 100%;
+}
