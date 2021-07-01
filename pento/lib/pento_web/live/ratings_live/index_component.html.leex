@@ -3,7 +3,11 @@
   <%= if ratings_complete?(@products) do %>
   ✅
   <% end %>
+  <button phx-click="toggle-ratings">
+    <%= if @isShow, do: "Hide", else: "Show" %>
+  </button> 
   </h2>
+  <div style="display:<%= if @isShow, do: "block", else: "none" %>">
   <%= for {product, index} <- Enum.with_index(@products) do %>
     <%= if rating = List.first(product.ratings) do %>
       <%= live_component @socket,
@@ -19,4 +23,5 @@
         id: "product-#{product.id}-form" %>
     <% end %>
   <% end %>
+  </div>
 </section>

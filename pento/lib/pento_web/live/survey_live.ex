@@ -12,7 +12,9 @@ defmodule PentoWeb.SurveyLive do
      |> assign_title("Survey")
      |> assign_list_items(["Demographic survey", "Rating products"])
      |> assign_demographic()
-     |> assign_products()}
+     |> assign_products()
+      |> assign_show_ratings()
+    }
   end
 
   def assign_user(socket, token) do
@@ -38,6 +40,10 @@ defmodule PentoWeb.SurveyLive do
     socket |> assign(products: Catalog.list_products_with_user_ratings(current_user))
   end
 
+  def assign_show_ratings(socket) do
+    socket |> assign(show_ratings: true)
+  end
+
   def handle_info({:created_demographic, demographic}, socket) do
     IO.puts("handle_info *️⃣")
     {:noreply, handle_demographic_created(socket, demographic)}
@@ -47,5 +53,26 @@ defmodule PentoWeb.SurveyLive do
     socket
     |> put_flash(:info, "Demographic created successfully")
     |> assign(:demographic, demographic)
+  end
+
+  def handle_info({:created_rating, updated_product, product_index}, socket) do
+    {:noreply, handle_rating_created(socket, updated_product, product_index)}
+  end
+
+  def handle_rating_created(
+        %{assigns: %{products: products}} = socket,
+        updated_product,
+        product_index
+      ) do
+    socket
+    |> put_flash(:info, "Rating submitted successfully")
+    |> assign(
+      :products,
+      List.replace_at(products, product_index, updated_product)
+    )
+  end
+
+  def handle_event("toggle-ratings", _params, socket) do
+    {:noreply, socket |> assign(show_ratings: !socket.assigns.show_ratings)}
   end
 end

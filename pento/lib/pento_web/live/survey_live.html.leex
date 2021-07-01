@@ -9,8 +9,9 @@
     <%= live_component @socket,
       PentoWeb.RatingLive.IndexComponent,
       products: @products,
-      current_user: @current_user%>
-
+      current_user: @current_user,
+      isShow: @show_ratings
+      %>
 <% else %>
    
   <%= live_component @socket,
