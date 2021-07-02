@@ -20,9 +20,4 @@
       <p> No results </p>
     <%= end %>
   </div>
-  <ul>
-    <%= for {product_name, average_Rating} <- @products_with_average_ratings do %>
-      <li> <%= product_name %> - <%= average_Rating %>  </li>
-    <%= end %>
-  </ul>
 </section>
