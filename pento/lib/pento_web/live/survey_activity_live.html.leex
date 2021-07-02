@@ -1,0 +1,13 @@
+<div>
+  <h2>Survey Activity</h2>
+  <p>Active users currently taking the survey</p>
+  <div>
+    <%= for {key, users} <- @survey_activity do %>
+    <ul>
+      <%= for user <- users do %>
+        <li><%= user.email %> </li>
+      <% end %>
+    </ul>
+    <% end %>
+  </div>
+</div>

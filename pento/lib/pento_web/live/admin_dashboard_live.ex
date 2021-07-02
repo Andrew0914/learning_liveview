@@ -3,17 +3,22 @@ defmodule PentoWeb.AdminDashboardLive do
   alias PentoWeb.Endpoint
   @survey_results_topic "survey_results"
   @user_activity_topic "user_activity"
+  @survey_presence "survey_presence"
+
 
   def mount(_params, _session, socket) do
     if connected?(socket) do
       Endpoint.subscribe(@survey_results_topic)
       Endpoint.subscribe(@user_activity_topic)
+      Endpoint.subscribe(@survey_presence)
     end
 
     {:ok,
      socket
      |> assign(:survey_results_component_id, "survey-results")
-     |> assign(:user_activity_component_id, "user-activity")}
+     |> assign(:user_activity_component_id, "user-activity")
+     |> assign(:survey_activity_component_id, "survey-activity")}
+     
   end
 
   def handle_info(%{event: "rating_created"}, socket) do
@@ -31,6 +36,13 @@ defmodule PentoWeb.AdminDashboardLive do
       id: socket.assigns.user_activity_component_id
     )
 
+    send_update(
+      SurveyActivityLive,
+      id: socket.assigns.survey_activity_component_id
+    )
+
     {:noreply, socket}
   end
+
+  
 end

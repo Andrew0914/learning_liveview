@@ -12,6 +12,7 @@ defmodule PentoWeb.Presence do
   alias Pento.Accounts
   alias PentoWeb.Presence
   @user_activity_topic "user_activity"
+  @survey_presence "survey_presence"
 
   def track_user(pid, product, token) do
     user = Accounts.get_user_by_session_token(token)
@@ -25,14 +26,12 @@ defmodule PentoWeb.Presence do
   end
 
   def list_products_and_users do
-
-
     Presence.list(@user_activity_topic)
-    |> Enum.map(&extract_product_with_users/1)
+    |> Enum.map(&extract_users/1)
   end
 
-  defp extract_product_with_users({product_name, %{metas: metas}}) do
-    {product_name, users_from_metas_list(metas)}
+  defp extract_users({key, %{metas: metas}}) do
+    {key, users_from_metas_list(metas)}
   end
 
   defp users_from_metas_list(metas_list) do
@@ -44,4 +43,21 @@ defmodule PentoWeb.Presence do
   def users_from_meta_map(meta_map) do
     get_in(meta_map, [:users])
   end
+
+  def track_user_survey(pid, user_token) do
+    user = Accounts.get_user_by_session_token(user_token)
+
+    Presence.track(
+      pid,
+      @survey_presence,
+      "survey",
+      %{users: [%{email: user.email}]}
+    )
+  end
+
+  def list_survey_presence do
+    Presence.list(@survey_presence)
+    |> Enum.map(&extract_users/1)
+  end
+
 end
