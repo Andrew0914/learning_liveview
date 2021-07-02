@@ -7,7 +7,7 @@ defmodule PentoWeb.SurveyResultsLive do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign_age_group_filter("all")
+     |> assign_age_group_filter()
      |> assign_products_with_average_ratings()
      |> assign_dataset()
      |> assign_chart()
@@ -74,10 +74,6 @@ defmodule PentoWeb.SurveyResultsLive do
     "stars"
   end
 
-  def assign_age_group_filter(socket, age_group_filter) do
-    socket |> assign(age_group_filter: age_group_filter)
-  end
-
   def handle_event(
         "age_group_filter",
         %{"age_group_filter" => age_group_filter},
@@ -90,5 +86,20 @@ defmodule PentoWeb.SurveyResultsLive do
      |> assign_dataset()
      |> assign_chart()
      |> assign_chart_svg()}
+  end
+
+  def assign_age_group_filter(socket, age_group_filter) do
+    assign(socket, :age_group_filter, age_group_filter)
+  end
+
+  def assign_age_group_filter(
+        %{assigns: %{age_group_filter: age_group_filter}} =
+          socket
+      ) do
+    assign(socket, :age_group_filter, age_group_filter)
+  end
+
+  def assign_age_group_filter(socket) do
+    assign(socket, :age_group_filter, "all")
   end
 end

@@ -1,11 +1,11 @@
 defmodule PentoWeb.SurveyLive do
   use PentoWeb, :live_view
   alias Pento.{Catalog, Accounts, Survey}
+  alias PentoWeb.Endpoint
+  @survey_results_topic "survey_results"
 
   @impl true
   def mount(_params, %{"user_token" => token} = _session, socket) do
-    IO.puts("mount 1️⃣")
-
     {:ok,
      socket
      |> assign_user(token)
@@ -13,8 +13,7 @@ defmodule PentoWeb.SurveyLive do
      |> assign_list_items(["Demographic survey", "Rating products"])
      |> assign_demographic()
      |> assign_products()
-      |> assign_show_ratings()
-    }
+     |> assign_show_ratings()}
   end
 
   def assign_user(socket, token) do
@@ -64,6 +63,9 @@ defmodule PentoWeb.SurveyLive do
         updated_product,
         product_index
       ) do
+    # I'm new!
+    Endpoint.broadcast(@survey_results_topic, "rating_created", %{})
+
     socket
     |> put_flash(:info, "Rating submitted successfully")
     |> assign(
