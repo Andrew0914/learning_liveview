@@ -14,7 +14,7 @@ defmodule PentoWeb.SurveyResultsLive do
      |> assign_chart_svg()}
   end
 
-  defp assign_products_with_average_ratings(
+  def assign_products_with_average_ratings(
          %{assigns: %{age_group_filter: age_group_filter}} = socket
        ) do
     assign(
