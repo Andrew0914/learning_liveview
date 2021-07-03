@@ -89,25 +89,41 @@ defmodule PentoWeb.AdminDashboardLiveTest do
       :ok
     end
 
-    test "it filters by age group", %{conn: conn} do
-      {:ok, view, _html} = live(conn, "/admin-dashboard")
+    # test "it filters by age group", %{conn: conn} do
+    #   {:ok, view, _html} = live(conn, "/admin-dashboard")
 
-      html =
-        view
-        |> open_browser()
-        |> element("#age-group-form")
-        |> render_change(%{"age_group_filter" => "18 and under"})
-    end
+    #   html =
+    #     view
+    #     |> open_browser() #nesecita linux por que corre un comando de linux para abrir un archivo
+    #     |> element("#age-group-form")
+    #     |> render_change(%{"age_group_filter" => "18 and under"})
+    # end
 
     test "it filters by age group", %{conn: conn} do
       {:ok, view, _html} = live(conn, "/admin-dashboard")
 
       params = %{"age_group_filter" => "18 and under"}
-      # |> open_browser() nesecita linux por que corre un comando de linux para abrir un archivo
 
       assert view
              |> element("#age-group-form")
              |> render_change(params) =~ "<title>2.00</title>"
+    end
+
+    test "it updates to display newly created ratings",
+         %{conn: conn, product: product} do
+      {:ok, view, html} = live(conn, "/admin-dashboard")
+
+      assert html =~ "<title>2.50</title>"
+
+      user3 = user_fixture(@create_user3_attrs)
+      create_demographic(user3)
+
+      create_rating(user3, product, 3)
+
+      send(view.pid, %{event: "rating_created"})
+      :timer.sleep(2)
+      
+      assert render(view) =~ "<title>2.67</title>"
     end
   end
 end
