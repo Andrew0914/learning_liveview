@@ -28,6 +28,7 @@ defmodule PentoWeb.DemographicLive.FormComponent do
       {:ok, demographic} ->
         send(self(), {:created_demographic, demographic})
         socket
+
       {:error, %Ecto.Changeset{} = changeset} ->
         assign(socket, changeset: changeset)
     end

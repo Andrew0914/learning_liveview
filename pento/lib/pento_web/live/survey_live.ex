@@ -40,7 +40,7 @@ defmodule PentoWeb.SurveyLive do
   end
 
   def assign_demographic(%{assigns: %{current_user: current_user}} = socket) do
-    IO.inspect(Survey.get_demographic_by_user(current_user))
+    
     assign(socket, :demographic, Survey.get_demographic_by_user(current_user))
   end
 
@@ -53,7 +53,6 @@ defmodule PentoWeb.SurveyLive do
   end
 
   def handle_info({:created_demographic, demographic}, socket) do
-    IO.puts("handle_info *️⃣")
     {:noreply, handle_demographic_created(socket, demographic)}
   end
 
