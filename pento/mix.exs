@@ -49,7 +49,8 @@ defmodule Pento.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:phx_gen_auth, "~> 0.7"},
-      {:contex, "~>0.3.0"}
+      {:contex, "~>0.3.0"},
+      {:surface, "~> 0.5.0"}
     ]
   end
 
