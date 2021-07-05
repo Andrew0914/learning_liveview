@@ -33,6 +33,8 @@ defmodule PentoWeb.Router do
     live "/questions/:id/edit", QuestionsLive.Index, :edit
     live "/questions/:id", QuestionsLive.Show, :show
     live "/questions/:id/show/edit", QuestionsLive.Show, :edit
+
+    live "/game/:puzzle", Pento.GameLive
   end
 
   # Other scopes may use custom stacks.
