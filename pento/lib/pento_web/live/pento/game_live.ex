@@ -7,7 +7,7 @@ defmodule PentoWeb.Pento.GameLive do
   def render(assigns) do
     ~F"""
     <section class="container">
-      <Title message="Welcome to Pento! ✨" />
+      <Title message={4}/>
     </section>
     """
   end
