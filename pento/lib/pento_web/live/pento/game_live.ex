@@ -1,6 +1,6 @@
 defmodule PentoWeb.Pento.GameLive do
   use Surface.LiveView
-  alias PentoWeb.Pento.{Canvas, Point, Title}
+  alias PentoWeb.Pento.{Title, Canvas, Palette}
 
   def mount(_params, _session, socket), do: {:ok, socket}
 
@@ -8,11 +8,9 @@ defmodule PentoWeb.Pento.GameLive do
     ~F"""
     <section class="container">
       <Title message="Welcome to Pento!" />
-      <Canvas viewBox="0 0 200 30">
-        <Point x={0} y={0} fill="blue" name="a" />
-        <Point x={1} y={0} fill="green" name="b" />
-        <Point x={0} y={1} fill="red" name="c" />
-        <Point x={1} y={1} fill="black" name="d" />
+      <Canvas viewBox="0 0 200 70">
+        <Palette 
+          shape_names={ [:i, :l, :y, :n, :p, :w, :u, :v, :s, :f, :x, :t] } />
       </Canvas>
     </section>
     """
