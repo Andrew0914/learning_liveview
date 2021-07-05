@@ -12,8 +12,14 @@ defmodule Pento.Game.Pentomino do
 
   def new(fields \\ []), do: __struct__(fields)
 
-  def rotate(%{rotation: degrees} = pentomino) do
-    %{pentomino | rotation: rem(degrees + 90, 360)}
+  def rotate(%{rotation: degrees} = pentomino, direction \\ :clock_wise) do
+    case direction do
+      :clock_wise ->
+        %{pentomino | rotation: rem(degrees + 90, 360)}
+
+      :conuter_clockwise ->
+        %{pentomino | rotation: 360 - degrees}
+    end
   end
 
   def flip(%{reflected: reflection} = pentomino) do
